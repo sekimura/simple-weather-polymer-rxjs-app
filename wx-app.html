@@ -1,0 +1,61 @@
+<link rel="import" href="//www.polymer-project.org/components/polymer/polymer.html">
+<link rel="import" href="wx.html">
+
+<polymer-element name="wx-app" extends="body">
+<template>
+  <style>
+    :host(body) {
+      position: relative;
+      box-sizing: border-box;
+      display: block;
+      width: 100%;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      background-image: url(bg.png);
+      background-size: cover;
+      background-repeat: no-repeat;
+      color: white;
+    }
+  </style>
+  <wx-city-label id="citylabel"></wx-city-label>
+  <wx-condition id="condition"></wx-condition>
+</template>
+<script>
+  Polymer('wx-app', {
+    ready: function() {
+      var _ctx = this;
+      function updateView(data) {
+        _ctx.$.citylabel.name = data.name;
+        _ctx.$.condition.temparature = parseInt(data.main.temp, 10);
+        _ctx.$.condition.hi = parseInt(data.main.temp_max, 10);
+        _ctx.$.condition.lo = parseInt(data.main.temp_min, 10); 
+      }
+
+      var coords = {latitude: 35.79, longitude: -121.43};
+
+      function updateCondition() {
+        var apiEndpoint = 'http://api.openweathermap.org/data/2.5/weather?units=imperial';
+        var lat = coords.latitude;
+        var lon = coords.longitude;
+        var url = apiEndpoint + '&lat=' + lat + '&lon=' + lon;
+        var source= Rx.DOM.Request.getJSON(url);
+        source.subscribe(function (data) {
+          updateView(data);
+        });
+      }
+
+      function updatePosition() {
+        var source = Rx.DOM.Geolocation.getCurrentPosition();
+        source.subscribe(function(newPosition) {
+          coords = newPosition.coords; 
+          updateCondition();
+        });
+      }
+
+      // main
+      updatePosition();
+    }
+  });
+</script>
+</polymer-element>

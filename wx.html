@@ -1,0 +1,79 @@
+<link rel="import" href="//www.polymer-project.org/components/polymer/polymer.html">
+
+<polymer-element name="wx-city-label">
+<template>
+  <style>
+    :host {
+      display: block;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      text-align: center;
+      font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+      font-weight: 300;
+      font-size: 18px;
+    }
+  </style>
+  <span>{{name}}</span>
+</template>
+<script>
+  Polymer('wx-city-label', {
+    ready: function() {
+      this.name = 'Loading...';
+    }
+  });
+</script>
+</polymer-element>
+
+<polymer-element name="wx-condition">
+<template>
+  <style>
+    :host {
+      display: block;
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+      font-weight: 300;
+    }
+    .row {
+      display: block;
+      width: 100%;
+    }
+    .condition {
+      font-size: 18px;
+    }
+    .condition > * {
+      vertical-align: middle;
+    }
+    .condition > img {
+      width: 32px;
+      height: 32px;
+      margin-right: 10px;
+    }
+    .temparature {
+      font-family: "HelveticaNeue-UltraLight";
+      font-size: 35vw;
+    }
+    .hilo {
+      font-size: 28px;
+    }
+  </style>
+  <div class="row condition"><img src="icons/{{icon}}@2x.png"><span>{{condition}}</span></div>
+  <div class="row temparature">{{temparature}}°</div>
+  <div class="row hilo">{{hi}}° / {{lo}}°</div>
+</template>
+<script>
+  Polymer('wx-condition', {
+    ready: function() {
+      this.condition = 'Clear';
+      this.icon = 'weather-clear';
+      this.temparature = 0;
+      this.hi = 0;
+      this.lo = 0;
+    }
+  });
+</script>
+</polymer-element>
